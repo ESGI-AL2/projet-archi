@@ -42,18 +42,33 @@ public class ScannerProject {
                     endProgram = true;
                     break;
                 default:
-                    int userId = Integer.parseInt(s);
-                    User user = userDao.getUserById(userId);
-                    userchoice(user);
+                    try {
+                        int userId = Integer.parseInt(s);
+                        List <Integer> existingId = userDao.getAllId();
+                        if (existingId.contains(userId)) {
+                            User user = userDao.getUserById(userId);
+                            userchoice(user);
+                        }
+                        else {
+                            System.out.println("Merci d'entrer une commande correcte");
+                        }
+                    }
+                    catch (Exception e) {
+                        System.out.println("Merci d'entrer une commande correcte");
+                    }
+
+                }
+
+
             }
 
 
         }
-    }
+
 
     private void userchoice(User user) {
         System.out.println("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
-        List<Order> ordersOfUser = orderDao.getOrdersOfUser(userDao.getUsers().get(0));
+        List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
         for (Order order : ordersOfUser) {
             System.out.println("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
             boolean endLoop = false;

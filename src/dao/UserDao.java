@@ -24,12 +24,20 @@ public class UserDao {
     }
 
     public User getUserById(int id) {
-        for (User User : users) {
-            if (User.getId() == id) {
-                return User;
+        for (User user : users) {
+            if (user.getId() == id) {
+                return user;
             }
         }
         return null;
+    }
+
+    public List <Integer> getAllId () {
+        List <Integer> result = new ArrayList <>();
+        for (User user : users) {
+            result.add(user.getId());
+        }
+        return result;
     }
 }
 

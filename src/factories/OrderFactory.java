@@ -34,6 +34,7 @@ public class OrderFactory {
         Order order = new Order(id, price, user);
         OrderDao orderDao = OrderDao.getInstance();
         orderDao.getOrders().add(order);
+
     }
 
 

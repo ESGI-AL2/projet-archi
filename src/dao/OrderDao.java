@@ -36,7 +36,7 @@ public class OrderDao {
     public List<Order> getOrdersOfUser(User user) {
         List<Order> result = new ArrayList<>();
         for (Order order : orders) {
-            if (order.getUser().equals(user)) {
+            if (order.getUser() == user) {
                 result.add(order);
             }
         }
