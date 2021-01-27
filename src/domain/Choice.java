@@ -36,10 +36,14 @@ public class Choice {
         this.isConserved = isConserved;
         this.ldt = ldt;
     }
-    public void print () {
-        if (isConserved) System.out.println("Billet n°".concat(Integer.toString(order.getId())).concat(" a été conservé par ").concat(order.getUser().getFirstName()).concat (" ").concat(order.getUser().getLastName()).concat(" le ").concat(ldt.toString()));
-        if (!isConserved) System.out.println("Billet n°".concat(Integer.toString(order.getId())).concat(" n'a pas été conservé par ").concat(order.getUser().getFirstName()).concat (" ").concat(order.getUser().getLastName()).concat(" le ").concat(ldt.toString()));
+
+    @Override
+    public String toString() {
+        return "Choice{" +
+                "order=" + order.getId() +
+                ", userId=" + order.getUser().getId() +
+                ", answer=" + isConserved +
+                ", ldt=" + ldt +
+                '}' + "\n";
     }
-
-
 }
