@@ -1,12 +1,6 @@
 package Utility;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
@@ -14,7 +8,8 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.UserDao;
+import dao.IUserDao;
+import factories.DaoFactory;
 import factories.OrderFactory;
 import factories.UserFactory;
 
@@ -38,7 +33,7 @@ public class JsonConstructor {
         for (JsonNode json : jsonOfUsers) {
             userFactory.addUser(json);
         }
-        UserDao userDao = UserDao.getInstance();
+        IUserDao userDao = DaoFactory.getUserDao();
         StringBuilder contentOfOrder = new StringBuilder();
         Stream<String> linesOfOrder = Files.lines(Paths.get("resources/order.json"));
         contentOfOrder.append(linesOfOrder.collect(Collectors.joining(System.lineSeparator())));

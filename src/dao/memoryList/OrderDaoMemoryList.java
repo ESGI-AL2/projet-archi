@@ -1,21 +1,22 @@
-package dao;
+package dao.memoryList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Order;
-import model.User;
+import dao.IOrderDao;
+import domain.Order;
+import domain.User;
 
-public class OrderDao {
+public class OrderDaoMemoryList implements IOrderDao {
     private List<Order> orders = new ArrayList<Order>();
-    private static OrderDao instance;
+    private static OrderDaoMemoryList instance;
 
-    private OrderDao() {
+    private OrderDaoMemoryList() {
     }
 
-    public static OrderDao getInstance() {
+    public static OrderDaoMemoryList getInstance() {
         if (instance == null) {
-            instance = new OrderDao();
+            instance = new OrderDaoMemoryList();
         }
         return instance;
     }

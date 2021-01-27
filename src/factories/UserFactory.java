@@ -1,12 +1,10 @@
 package factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
-import dao.UserDao;
-import model.User;
+import dao.IUserDao;
+import dao.memoryList.UserDaoMemoryList;
+import domain.User;
 
 public class UserFactory {
 
@@ -29,7 +27,7 @@ public class UserFactory {
         String lastName = json.get("lastName").textValue();
         String email = json.get("email").textValue();
         User user = new User(id, firstName, lastName, email);
-        UserDao userDao = UserDao.getInstance();
+        IUserDao userDao = DaoFactory.getUserDao();
         userDao.getUsers().add(user);
 
     }

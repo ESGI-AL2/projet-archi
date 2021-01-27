@@ -1,11 +1,12 @@
 package Utility;
 
-import dao.ChoiceDao;
-import dao.OrderDao;
-import dao.UserDao;
-import model.Choice;
-import model.Order;
-import model.User;
+import dao.IChoiceDao;
+import dao.IOrderDao;
+import dao.IUserDao;
+import domain.Choice;
+import domain.Order;
+import domain.User;
+import factories.DaoFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.Scanner;
 
 public class ScannerProject {
 
-    private OrderDao orderDao = OrderDao.getInstance();
-    private UserDao userDao = UserDao.getInstance();
-    private ChoiceDao choiceDao = ChoiceDao.getInstance();
+    private IOrderDao orderDao =DaoFactory.getOrderDao();
+    private IUserDao userDao = DaoFactory.getUserDao();
+    private IChoiceDao choiceDao = DaoFactory.getChoiceDao();
     private Scanner scanner = new Scanner(System.in);
     private static ScannerProject instance;
 

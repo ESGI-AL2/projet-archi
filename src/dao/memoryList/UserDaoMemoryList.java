@@ -1,20 +1,21 @@
-package dao;
+package dao.memoryList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.User;
+import dao.IUserDao;
+import domain.User;
 
-public class UserDao {
+public class UserDaoMemoryList implements IUserDao {
     private List<User> users = new ArrayList<>();
-    private static UserDao instance;
+    private static UserDaoMemoryList instance;
 
-    private UserDao() {
+    private UserDaoMemoryList() {
     }
 
-    public static UserDao getInstance() {
+    public static UserDaoMemoryList getInstance() {
         if (instance == null) {
-            instance = new UserDao();
+            instance = new UserDaoMemoryList();
         }
         return instance;
     }

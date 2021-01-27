@@ -1,14 +1,11 @@
 package factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
-import dao.OrderDao;
-import dao.UserDao;
-import model.Order;
-import model.User;
+import dao.IOrderDao;
+import dao.IUserDao;
+import domain.Order;
+import domain.User;
 
 
 public class OrderFactory {
@@ -29,10 +26,10 @@ public class OrderFactory {
         int id = json.get("id").intValue();
         int price = json.get("price").intValue();
         int userId = json.get("userId").intValue();
-        UserDao userDao = UserDao.getInstance();
+        IUserDao userDao = DaoFactory.getUserDao();
         User user = userDao.getUserById(userId);
         Order order = new Order(id, price, user);
-        OrderDao orderDao = OrderDao.getInstance();
+        IOrderDao orderDao= DaoFactory.getOrderDao();
         orderDao.getOrders().add(order);
 
     }

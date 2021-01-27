@@ -1,9 +1,10 @@
-package model;
+package domain;
 
 public class Order {
     private int id;
     private int price;
     private User user;
+    private String state;
 
     public int getId() {
         return id;
@@ -34,6 +35,7 @@ public class Order {
         this.id = id;
         this.price = price;
         this.user = user;
+        this.state = "undefined";
     }
 
 

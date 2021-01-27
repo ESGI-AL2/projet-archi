@@ -1,4 +1,4 @@
-package dao;
+package dao.memoryList;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,22 +6,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import factories.OrderFactory;
-import model.Association;
-import model.Choice;
-import model.Order;
-import model.User;
+import dao.IChoiceDao;
+import domain.Association;
+import domain.Choice;
+import domain.Order;
+import domain.User;
 
-public class ChoiceDao {
+public class ChoiceDaoMemoryList implements IChoiceDao {
 	private List<Choice> choices = new ArrayList<Choice>();
-	private static ChoiceDao instance;
+	private static ChoiceDaoMemoryList instance;
 
-	private ChoiceDao() {
+	private ChoiceDaoMemoryList() {
 	}
 
-	public static ChoiceDao getInstance() {
+	public static ChoiceDaoMemoryList getInstance() {
 		if (instance == null) {
-			instance = new ChoiceDao();
+			instance = new ChoiceDaoMemoryList();
 		}
 		return instance;
 	}
@@ -60,7 +60,7 @@ public class ChoiceDao {
 	}
 	public List<Choice> getLastChoices () {
 		List <Choice> result = new ArrayList<Choice>();
-		for (User user : UserDao.getInstance().getUsers()) {
+		for (User user : UserDaoMemoryList.getInstance().getUsers()) {
 			List <Choice> userChoices = getChoicesByUser(user);
 			Map <Order, Association> last = new HashMap <>();
 			for (Choice choice: userChoices) {
