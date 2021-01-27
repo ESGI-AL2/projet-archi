@@ -107,6 +107,7 @@ public class ScannerProject {
             switch (s) {
                 case "tous":
                     new DisplayAllResponsesUseCase();
+                    break;
                 case "dernier":
                     new DisplayLastChoiceofEachUserUseCase();
                     break;
@@ -132,8 +133,10 @@ public class ScannerProject {
             switch (s) {
                 case "consulter":
                     new DisplayResponseOfUserUseCase(user);
+                    break;
                 case "choisir":
                     userChoice (user);
+                    break;
                 case "menu":
                     endUser = true;
                     break;
