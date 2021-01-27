@@ -1,9 +1,9 @@
-package factories;
+package infrastructure.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import dao.IOrderDao;
-import dao.IUserDao;
+import infrastructure.dao.IOrderDao;
+import infrastructure.dao.IUserDao;
 import domain.Order;
 import domain.User;
 

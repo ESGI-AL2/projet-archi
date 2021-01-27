@@ -1,9 +1,9 @@
-package dao.memoryList;
+package infrastructure.dao.memoryList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.IOrderDao;
+import infrastructure.dao.IOrderDao;
 import domain.Order;
 import domain.User;
 
@@ -42,6 +42,16 @@ public class OrderDaoMemoryList implements IOrderDao {
             }
         }
         return result;
+    }
+
+    @Override
+    public void changeOrderState(Order order, String state) {
+        for (Order o : orders) {
+            if (o == order) {
+                o.setState(state);
+            }
+        }
+
     }
 
 

@@ -1,9 +1,8 @@
-package factories;
+package infrastructure.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import dao.IUserDao;
-import dao.memoryList.UserDaoMemoryList;
+import infrastructure.dao.IUserDao;
 import domain.User;
 
 public class UserFactory {

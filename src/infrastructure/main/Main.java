@@ -1,8 +1,8 @@
-package main;
+package infrastructure.main;
 
 
-import Utility.JsonConstructor;
-import Utility.ScannerProject;
+import infrastructure.utilities.JsonConstructor;
+import infrastructure.utilities.ScannerProject;
 
 
 import java.io.IOException;

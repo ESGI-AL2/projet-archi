@@ -1,12 +1,17 @@
-package Utility;
+package infrastructure.utilities;
 
-import dao.IChoiceDao;
-import dao.IOrderDao;
-import dao.IUserDao;
+import infrastructure.dao.IChoiceDao;
+import infrastructure.dao.IOrderDao;
+import infrastructure.dao.IUserDao;
 import domain.Choice;
 import domain.Order;
 import domain.User;
-import factories.DaoFactory;
+import infrastructure.factories.DaoFactory;
+import infrastructure.factories.MessageFactory;
+import use_case.DeleteChoicesUseCase;
+import use_case.DisplayAllResponsesUseCase;
+import use_case.DisplayLastChoiceofEachUserUseCase;
+import use_case.DisplayResponseOfUserUseCase;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,7 +38,7 @@ public class ScannerProject {
     public void start() {
         boolean endProgram = false;
         while (!endProgram) {
-            System.out.println("Pour vous connecter en tant qu'admin, écrivez \"admin\", pour vous connecter en tant qu'utilisateur, entrez votre id, pour quitter le programme, entrez \"end\"");
+            MessageFactory.getMessage().send("Pour vous connecter en tant qu'admin, écrivez \"admin\", pour vous connecter en tant qu'utilisateur, entrez votre id, pour quitter le programme, entrez \"end\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "admin":
@@ -48,14 +53,14 @@ public class ScannerProject {
                         List <Integer> existingId = userDao.getAllId();
                         if (existingId.contains(userId)) {
                             User user = userDao.getUserById(userId);
-                            userchoice(user);
+                            menuUser(user);
                         }
                         else {
-                            System.out.println("Merci d'entrer une commande correcte");
+                            MessageFactory.getMessage().send("Utilisateur inconnu");
                         }
                     }
                     catch (Exception e) {
-                        System.out.println("Merci d'entrer une commande correcte");
+                        MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
                     }
 
                 }
@@ -67,11 +72,11 @@ public class ScannerProject {
         }
 
 
-    private void userchoice(User user) {
-        System.out.println("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
+    private void userChoice(User user) {
+        MessageFactory.getMessage().send("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
         List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
         for (Order order : ordersOfUser) {
-            System.out.println("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
+            MessageFactory.getMessage().send("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
             boolean endLoop = false;
             while (!endLoop) {
                 String s = scanner.nextLine();
@@ -87,7 +92,7 @@ public class ScannerProject {
                         choiceDao.addChoice(choice);
                         break;
                     default:
-                        System.out.println("Merci d'entrer une commande correcte");
+                        MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
                 }
             }
         }
@@ -97,31 +102,47 @@ public class ScannerProject {
     private void menuAdmin() {
         boolean endAdmin = false;
         while (!endAdmin) {
-            System.out.println("Pour consulter tous les choix, écrivez \"tous\", pour consulter les derniers choix de chaque utilisateur, écrivez \"dernier\", pour effacer tous les choix écrivez \"delete\", pour retourner au menu principal, entrez \"menu\"");
+            MessageFactory.getMessage().send("Pour consulter tous les choix, écrivez \"tous\", pour consulter les derniers choix de chaque utilisateur, écrivez \"dernier\", pour effacer tous les choix écrivez \"delete\", pour retourner au menu principal, entrez \"menu\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "tous":
-                    for (Choice choice : choiceDao.getChoices()) {
-                        choice.print();
-                    }
-                    break;
+                    new DisplayAllResponsesUseCase();
                 case "dernier":
-                    for (Choice choice : choiceDao.getLastChoices()) {
-                        choice.print();
-                    }
+                    new DisplayLastChoiceofEachUserUseCase();
                     break;
                 case "delete":
-                    choiceDao.getChoices().clear();
+                    new DeleteChoicesUseCase();
                     break;
                 case "menu":
                     endAdmin = true;
                     break;
                 default:
-                    System.out.println("Merci d'entrer une commande correcte");
+                    MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
 
             }
 
         }
+    }
+
+    private void menuUser (User user) {
+        boolean endUser = false;
+        while (!endUser) {
+            MessageFactory.getMessage().send("Pour consulter vos billets, écrivez \"consulter\", pour choisir si vous voulez conserver ou non vos billets, écrivez \"choisir\", pour retourner au menu principal, écrivez \"menu\"");
+            String s = scanner.nextLine();
+            switch (s) {
+                case "consulter":
+                    new DisplayResponseOfUserUseCase(user);
+                case "choisir":
+                    userChoice (user);
+                case "menu":
+                    endUser = true;
+                    break;
+                default:
+                    MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
+
+            }
+        }
+
     }
 
 

@@ -1,9 +1,9 @@
-package dao.memoryList;
+package infrastructure.dao.memoryList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.IUserDao;
+import infrastructure.dao.IUserDao;
 import domain.User;
 
 public class UserDaoMemoryList implements IUserDao {

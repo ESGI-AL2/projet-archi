@@ -1,4 +1,4 @@
-package dao;
+package infrastructure.dao;
 
 import domain.User;
 

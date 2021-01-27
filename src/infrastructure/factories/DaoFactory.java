@@ -1,11 +1,11 @@
-package factories;
+package infrastructure.factories;
 
-import dao.IChoiceDao;
-import dao.IOrderDao;
-import dao.IUserDao;
-import dao.memoryList.ChoiceDaoMemoryList;
-import dao.memoryList.OrderDaoMemoryList;
-import dao.memoryList.UserDaoMemoryList;
+import infrastructure.dao.IChoiceDao;
+import infrastructure.dao.IOrderDao;
+import infrastructure.dao.IUserDao;
+import infrastructure.dao.memoryList.ChoiceDaoMemoryList;
+import infrastructure.dao.memoryList.OrderDaoMemoryList;
+import infrastructure.dao.memoryList.UserDaoMemoryList;
 
 public class DaoFactory {
 

@@ -1,4 +1,4 @@
-package Utility;
+package infrastructure.utilities;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dao.IUserDao;
-import factories.DaoFactory;
-import factories.OrderFactory;
-import factories.UserFactory;
+import infrastructure.dao.IUserDao;
+import infrastructure.factories.DaoFactory;
+import infrastructure.factories.OrderFactory;
+import infrastructure.factories.UserFactory;
 
 public class JsonConstructor {
 

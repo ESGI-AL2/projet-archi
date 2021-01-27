@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Objects;
+
 public class Order {
     private int id;
     private int price;
@@ -38,5 +40,22 @@ public class Order {
         this.state = "undefined";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id &&
+                price == order.price &&
+                user.equals(order.user);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, price, user);
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 }

@@ -1,4 +1,4 @@
-package dao;
+package infrastructure.dao;
 
 import domain.Choice;
 import domain.User;
@@ -11,4 +11,5 @@ public interface IChoiceDao {
     public List<Choice> getChoices();
     public List<Choice> getLastChoicesByUser (User user);
     public List<Choice> getLastChoices ();
+    public void deleteAll ();
 }
