@@ -3,10 +3,10 @@ package infrastructure.dao.memoryList;
 import java.util.ArrayList;
 import java.util.List;
 
-import infrastructure.dao.IUserDao;
-import domain.User;
+import domain.dao.UserDao;
+import domain.model.User;
 
-public class UserDaoMemoryList implements IUserDao {
+public class UserDaoMemoryList implements UserDao {
     private List<User> users = new ArrayList<>();
     private static UserDaoMemoryList instance;
 

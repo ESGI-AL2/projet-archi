@@ -2,10 +2,10 @@ package infrastructure.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import infrastructure.dao.IOrderDao;
-import infrastructure.dao.IUserDao;
-import domain.Order;
-import domain.User;
+import domain.dao.OrderDao;
+import domain.dao.UserDao;
+import domain.model.Order;
+import domain.model.User;
 
 
 public class OrderFactory {
@@ -26,10 +26,10 @@ public class OrderFactory {
         int id = json.get("id").intValue();
         int price = json.get("price").intValue();
         int userId = json.get("userId").intValue();
-        IUserDao userDao = DaoFactory.getUserDao();
+        UserDao userDao = DaoFactory.getUserDao();
         User user = userDao.getUserById(userId);
         Order order = new Order(id, price, user);
-        IOrderDao orderDao= DaoFactory.getOrderDao();
+        OrderDao orderDao= DaoFactory.getOrderDao();
         orderDao.getOrders().add(order);
 
     }

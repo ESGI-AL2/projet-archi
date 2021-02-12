@@ -1,11 +1,11 @@
-package infrastructure.dao;
+package domain.dao;
 
-import domain.Order;
-import domain.User;
+import domain.model.Order;
+import domain.model.User;
 
 import java.util.List;
 
-public interface IOrderDao {
+public interface OrderDao {
 
     public List<Order> getOrders();
     public Order getOrderById(int id);

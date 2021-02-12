@@ -1,11 +1,11 @@
-package infrastructure.dao;
+package domain.dao;
 
-import domain.Choice;
-import domain.User;
+import domain.model.Choice;
+import domain.model.User;
 
 import java.util.List;
 
-public interface IChoiceDao {
+public interface ChoiceDao {
     public void addChoice (Choice choice);
     public List<Choice> getChoicesByUser (User user);
     public List<Choice> getChoices();

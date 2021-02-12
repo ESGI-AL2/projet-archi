@@ -6,15 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import infrastructure.dao.IChoiceDao;
-import infrastructure.dao.IOrderDao;
-import domain.Association;
-import domain.Choice;
-import domain.Order;
-import domain.User;
+import domain.dao.ChoiceDao;
+import domain.dao.OrderDao;
+import domain.model.Association;
+import domain.model.Choice;
+import domain.model.Order;
+import domain.model.User;
 import infrastructure.factories.DaoFactory;
 
-public class ChoiceDaoMemoryList implements IChoiceDao {
+public class ChoiceDaoMemoryList implements ChoiceDao {
 	private List<Choice> choices = new ArrayList<Choice>();
 	private static ChoiceDaoMemoryList instance;
 
@@ -30,7 +30,7 @@ public class ChoiceDaoMemoryList implements IChoiceDao {
 	
 	public void addChoice (Choice choice) {
 		choices.add(choice);
-		IOrderDao orderDao = DaoFactory.getOrderDao();
+		OrderDao orderDao = DaoFactory.getOrderDao();
 		String s = choice.isConserved() ? "keep" : "reimburse";
 		orderDao.changeOrderState(choice.getOrder(), s);
 
@@ -91,7 +91,7 @@ public class ChoiceDaoMemoryList implements IChoiceDao {
 	@Override
 	public void deleteAll() {
 		choices.clear();
-		IOrderDao orderDao = DaoFactory.getOrderDao();
+		OrderDao orderDao = DaoFactory.getOrderDao();
 		for (Order order : orderDao.getOrders()) {
 			orderDao.changeOrderState(order, "undefined");
 		}

@@ -1,27 +1,23 @@
 package infrastructure.utilities;
 
-import infrastructure.dao.IChoiceDao;
-import infrastructure.dao.IOrderDao;
-import infrastructure.dao.IUserDao;
-import domain.Choice;
-import domain.Order;
-import domain.User;
+import domain.dao.ChoiceDao;
+import domain.dao.OrderDao;
+import domain.dao.UserDao;
+import domain.model.Choice;
+import domain.model.Order;
+import domain.model.User;
 import infrastructure.factories.DaoFactory;
 import infrastructure.factories.MessageFactory;
-import use_case.DeleteChoicesUseCase;
-import use_case.DisplayAllResponsesUseCase;
-import use_case.DisplayLastChoiceofEachUserUseCase;
-import use_case.DisplayResponseOfUserUseCase;
+import use_case.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
 public class ScannerProject {
 
-    private IOrderDao orderDao =DaoFactory.getOrderDao();
-    private IUserDao userDao = DaoFactory.getUserDao();
-    private IChoiceDao choiceDao = DaoFactory.getChoiceDao();
+    private OrderDao orderDao =DaoFactory.getOrderDao();
+    private UserDao userDao = DaoFactory.getUserDao();
+    private ChoiceDao choiceDao = DaoFactory.getChoiceDao();
     private Scanner scanner = new Scanner(System.in);
     private static ScannerProject instance;
 
@@ -72,31 +68,19 @@ public class ScannerProject {
         }
 
 
-    private void userChoice(User user) {
+    private void userChoice(User user) throws Exception {
         MessageFactory.getMessage().send("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
         List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
         for (Order order : ordersOfUser) {
             MessageFactory.getMessage().send("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
             boolean endLoop = false;
             while (!endLoop) {
+                endLoop = false;
                 String s = scanner.nextLine();
-                switch (s) {
-                    case "o":
-                        endLoop = true;
-                        Choice choice = new Choice(order, true, LocalDateTime.now());
-                        choiceDao.addChoice(choice);
-                        break;
-                    case "n":
-                        endLoop = true;
-                        choice = new Choice(order, false, LocalDateTime.now());
-                        choiceDao.addChoice(choice);
-                        break;
-                    default:
-                        MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
-                }
+                endLoop = new MakeAChoice (s, order, choiceDao).execute();
             }
         }
-        // TODO mail
+        MessageFactory.getMessage().send(new SendMail(user).execute());
     }
 
     private void menuAdmin() {
@@ -106,13 +90,15 @@ public class ScannerProject {
             String s = scanner.nextLine();
             switch (s) {
                 case "tous":
-                    new DisplayAllResponsesUseCase();
+                    List<Choice> allChoices = new DisplayAllResponses(choiceDao).execute();
+                    print(allChoices);
                     break;
                 case "dernier":
-                    new DisplayLastChoiceofEachUserUseCase();
+                    List<Choice> lastChoices = new DisplayLastChoiceofEachUser(choiceDao).execute();
+                    print(lastChoices);
                     break;
                 case "delete":
-                    new DeleteChoicesUseCase();
+                    new DeleteChoices(choiceDao).execute();
                     break;
                 case "menu":
                     endAdmin = true;
@@ -125,14 +111,15 @@ public class ScannerProject {
         }
     }
 
-    private void menuUser (User user) {
+    private void menuUser (User user) throws Exception {
         boolean endUser = false;
         while (!endUser) {
             MessageFactory.getMessage().send("Pour consulter vos billets, écrivez \"consulter\", pour choisir si vous voulez conserver ou non vos billets, écrivez \"choisir\", pour retourner au menu principal, écrivez \"menu\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "consulter":
-                    new DisplayResponseOfUserUseCase(user);
+                    List<Order> orders = new DisplayResponseOfUser(user, orderDao).execute();
+                    print (orders);
                     break;
                 case "choisir":
                     userChoice (user);
@@ -146,6 +133,11 @@ public class ScannerProject {
             }
         }
 
+    }
+    private <T> void print (List<T> list) {
+    for (T object : list) {
+        MessageFactory.getMessage().send(object.toString());
+    }
     }
 
 

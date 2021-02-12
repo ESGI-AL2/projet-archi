@@ -3,11 +3,11 @@ package infrastructure.dao.memoryList;
 import java.util.ArrayList;
 import java.util.List;
 
-import infrastructure.dao.IOrderDao;
-import domain.Order;
-import domain.User;
+import domain.dao.OrderDao;
+import domain.model.Order;
+import domain.model.User;
 
-public class OrderDaoMemoryList implements IOrderDao {
+public class OrderDaoMemoryList implements OrderDao {
     private List<Order> orders = new ArrayList<Order>();
     private static OrderDaoMemoryList instance;
 

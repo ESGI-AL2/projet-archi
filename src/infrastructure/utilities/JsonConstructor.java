@@ -8,8 +8,7 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import infrastructure.dao.IUserDao;
-import infrastructure.factories.DaoFactory;
+
 import infrastructure.factories.OrderFactory;
 import infrastructure.factories.UserFactory;
 
@@ -33,7 +32,6 @@ public class JsonConstructor {
         for (JsonNode json : jsonOfUsers) {
             userFactory.addUser(json);
         }
-        IUserDao userDao = DaoFactory.getUserDao();
         StringBuilder contentOfOrder = new StringBuilder();
         Stream<String> linesOfOrder = Files.lines(Paths.get("resources/order.json"));
         contentOfOrder.append(linesOfOrder.collect(Collectors.joining(System.lineSeparator())));

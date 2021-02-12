@@ -2,8 +2,8 @@ package infrastructure.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import infrastructure.dao.IUserDao;
-import domain.User;
+import domain.dao.UserDao;
+import domain.model.User;
 
 public class UserFactory {
 
@@ -26,7 +26,7 @@ public class UserFactory {
         String lastName = json.get("lastName").textValue();
         String email = json.get("email").textValue();
         User user = new User(id, firstName, lastName, email);
-        IUserDao userDao = DaoFactory.getUserDao();
+        UserDao userDao = DaoFactory.getUserDao();
         userDao.getUsers().add(user);
 
     }
