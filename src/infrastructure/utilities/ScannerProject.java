@@ -18,6 +18,7 @@ public class ScannerProject {
     private OrderDao orderDao =DaoFactory.getOrderDao();
     private UserDao userDao = DaoFactory.getUserDao();
     private ChoiceDao choiceDao = DaoFactory.getChoiceDao();
+    private Message message = MessageFactory.getMessage();
     private Scanner scanner = new Scanner(System.in);
     private static ScannerProject instance;
 
@@ -34,7 +35,7 @@ public class ScannerProject {
     public void start() {
         boolean endProgram = false;
         while (!endProgram) {
-            MessageFactory.getMessage().send("Pour vous connecter en tant qu'admin, écrivez \"admin\", pour vous connecter en tant qu'utilisateur, entrez votre id, pour quitter le programme, entrez \"end\"");
+            message.send("Pour vous connecter en tant qu'admin, écrivez \"admin\", pour vous connecter en tant qu'utilisateur, entrez votre id, pour quitter le programme, entrez \"end\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "admin":
@@ -52,11 +53,11 @@ public class ScannerProject {
                             menuUser(user);
                         }
                         else {
-                            MessageFactory.getMessage().send("Utilisateur inconnu");
+                            message.send("Utilisateur inconnu");
                         }
                     }
                     catch (Exception e) {
-                        MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
+                        message.send("Merci d'entrer une commande correcte");
                     }
 
                 }
@@ -69,10 +70,10 @@ public class ScannerProject {
 
 
     private void userChoice(User user) throws Exception {
-        MessageFactory.getMessage().send("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
+        message.send("Pour chaque billet, choisissez \"o\" si vous voulez le conservez et \"n\" si voue ne voulez pas le conserver");
         List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
         for (Order order : ordersOfUser) {
-            MessageFactory.getMessage().send("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
+            message.send("billet n°".concat(String.valueOf(order.getId()).concat(" au prix de : ").concat(String.valueOf(order.getPrice()))));
             boolean endLoop = false;
             while (!endLoop) {
                 endLoop = false;
@@ -80,13 +81,13 @@ public class ScannerProject {
                 endLoop = new MakeAChoice (s, order, choiceDao).execute();
             }
         }
-        MessageFactory.getMessage().send(new SendMail(user).execute());
+        message.send(new SendMail(user).execute());
     }
 
     private void menuAdmin() {
         boolean endAdmin = false;
         while (!endAdmin) {
-            MessageFactory.getMessage().send("Pour consulter tous les choix, écrivez \"tous\", pour consulter les derniers choix de chaque utilisateur, écrivez \"dernier\", pour effacer tous les choix écrivez \"delete\", pour retourner au menu principal, entrez \"menu\"");
+            message.send("Pour consulter tous les choix, écrivez \"tous\", pour consulter les derniers choix de chaque utilisateur, écrivez \"dernier\", pour effacer tous les choix écrivez \"delete\", pour retourner au menu principal, entrez \"menu\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "tous":
@@ -104,7 +105,7 @@ public class ScannerProject {
                     endAdmin = true;
                     break;
                 default:
-                    MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
+                    message.send("Merci d'entrer une commande correcte");
 
             }
 
@@ -114,7 +115,7 @@ public class ScannerProject {
     private void menuUser (User user) throws Exception {
         boolean endUser = false;
         while (!endUser) {
-            MessageFactory.getMessage().send("Pour consulter vos billets, écrivez \"consulter\", pour choisir si vous voulez conserver ou non vos billets, écrivez \"choisir\", pour retourner au menu principal, écrivez \"menu\"");
+            message.send("Pour consulter vos billets, écrivez \"consulter\", pour choisir si vous voulez conserver ou non vos billets, écrivez \"choisir\", pour retourner au menu principal, écrivez \"menu\"");
             String s = scanner.nextLine();
             switch (s) {
                 case "consulter":
@@ -128,7 +129,7 @@ public class ScannerProject {
                     endUser = true;
                     break;
                 default:
-                    MessageFactory.getMessage().send("Merci d'entrer une commande correcte");
+                    message.send("Merci d'entrer une commande correcte");
 
             }
         }
@@ -136,7 +137,7 @@ public class ScannerProject {
     }
     private <T> void print (List<T> list) {
     for (T object : list) {
-        MessageFactory.getMessage().send(object.toString());
+        message.send(object.toString());
     }
     }
 
